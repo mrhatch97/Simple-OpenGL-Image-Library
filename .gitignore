@@ -39,6 +39,4 @@ Release*
 *.ipch
 *.suo
 *VC.db
-*.vcxproj
-*.vcxproj.filters
 *.opendb
