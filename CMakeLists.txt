@@ -1,7 +1,7 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 3.0)
 project (SOIL)
 
-set (SOIL_BUILD_TESTS false CACHE BOOL "Build tests")
+option (SOIL_BUILD_TESTS "Build tests" off)
 
 if(ANDROID)
   # Android requires GL ES 2.0 package automatically
@@ -12,13 +12,23 @@ else()
   set(LIBRARIES ${OPENGL_LIBRARIES})
 endif()
 
-file (GLOB SOIL_SOURCES src/*.c)
-file (GLOB SOIL_HEADERS src/*.h)
+add_library (SOIL 
+	src/image_DXT.c
+	src/image_helper.c
+	src/SOIL.c
+	src/stb_image_aug.c)
 
-add_library (SOIL ${SOIL_SOURCES} ${SOIL_HEADERS})
 target_link_libraries (SOIL ${LIBRARIES})
 
-install (TARGETS SOIL
+target_include_directories(SOIL 
+	PUBLIC
+		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+		$<INSTALL_INTERFACE:include>
+    PRIVATE 
+		${PROJECT_SOURCE_DIR}/src
+)
+
+install (TARGETS SOIL EXPORT soilConfig
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib)
 install (FILES ${SOIL_HEADERS} DESTINATION include/SOIL)
