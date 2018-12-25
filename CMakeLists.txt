@@ -30,8 +30,16 @@ target_include_directories(SOIL
 
 install (TARGETS SOIL EXPORT soilConfig
 	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib)
-install (FILES ${SOIL_HEADERS} DESTINATION include/SOIL)
+	ARCHIVE DESTINATION lib
+	INCLUDES DESTINATION include)
+
+export(TARGETS SOIL
+	FILE soilConfig.cmake
+	NAMESPACE SOIL::
+)
+
+install(EXPORT soilConfig
+	DESTINATION share/SOIL/cmake)
 
 if (SOIL_BUILD_TESTS)
 	add_executable (test_SOIL src/test_SOIL.cpp)

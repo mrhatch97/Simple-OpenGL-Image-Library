@@ -40,3 +40,4 @@ Release*
 *.suo
 *VC.db
 *.opendb
+.vs
